@@ -1,4 +1,3 @@
-from gi.repository import Gio
 from .exitable import ExitableWithAliases
 from .auto_names import *
 

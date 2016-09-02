@@ -1,4 +1,7 @@
-from gi.repository import GLib
+try:
+    from gi.repository import GLib
+except ImportError:
+    from pgi.repository import GLib
 from xml.etree import ElementTree as ET
 from .auto_names import *
 

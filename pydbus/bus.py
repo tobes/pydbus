@@ -1,4 +1,8 @@
-from gi.repository import Gio
+try:
+    from gi.repository import Gio
+except ImportError:
+    from pgi.repository import Gio
+
 from .proxy import ProxyMixin
 from .bus_names import OwnMixin, WatchMixin
 from .subscription import SubscriptionMixin

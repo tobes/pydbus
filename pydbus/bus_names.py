@@ -1,4 +1,8 @@
-from gi.repository import Gio
+try:
+    from gi.repository import Gio
+except ImportError:
+    from pgi.repository import Gio
+
 from .exitable import ExitableWithAliases
 
 class NameOwner(ExitableWithAliases("unown")):
