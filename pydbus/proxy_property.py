@@ -1,4 +1,7 @@
-from gi.repository import GLib
+try:
+    from gi.repository import GLib
+except ImportError:
+    from pgi.repository import GLib
 
 class ProxyProperty(object):
 	def __init__(self, iface_name, property):

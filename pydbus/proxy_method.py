@@ -1,4 +1,8 @@
-from gi.repository import GLib
+try:
+    from gi.repository import GLib
+except ImportError:
+    from pgi.repository import GLib
+
 from .generic import bound_method
 from .identifier import filter_identifier
 from .green import GreenFunc
