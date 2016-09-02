@@ -1,6 +1,10 @@
+try:
+    from gi.repository import GLib
+except ImportError:
+    from pgi.repository import GLib
+
 import greenlet
 from functools import wraps
-from gi.repository import GLib
 import time
 
 class GreenFunc(object):

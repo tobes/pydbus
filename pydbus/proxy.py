@@ -1,4 +1,7 @@
-from gi.repository import GLib
+try:
+    from gi.repository import GLib
+except ImportError:
+    from pgi.repository import GLib
 from xml.etree import ElementTree as ET
 from .auto_names import *
 
@@ -36,10 +39,16 @@ class ProxyMixin(object):
 		bus_name = auto_bus_name(bus_name)
 		object_path = auto_object_path(bus_name, object_path)
 
-		xml, = GreenFunc(self.con.call, self.con.call_finish, self.con.call_sync)(
+		try:
+			xml, = GreenFunc(self.con.call, self.con.call_finish, self.con.call_sync)(
+				bus_name, object_path,
+				'org.freedesktop.DBus.Introspectable', "Introspect", None, GLib.VariantType.new("(s)"),
+				0, self.timeout, None).unpack()
+		except NotImplementedError:
+			xml = self.con.call_sync(
 			bus_name, object_path,
-			'org.freedesktop.DBus.Introspectable', "Introspect", None, GLib.VariantType.new("(s)"),
-			0, self.timeout, None).unpack()
+				'org.freedesktop.DBus.Introspectable', "Introspect", None, GLib.VariantType.new("(s)"),
+				0, self.timeout, None).unpack()[0]
 
 		introspection = ET.fromstring(xml)
 

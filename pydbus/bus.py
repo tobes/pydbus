@@ -1,4 +1,8 @@
-from gi.repository import Gio
+try:
+    from gi.repository import Gio
+except ImportError:
+    from pgi.repository import Gio
+
 from .proxy import ProxyMixin
 from .bus_names import OwnMixin, WatchMixin
 from .subscription import SubscriptionMixin
@@ -10,7 +14,10 @@ class Bus(ProxyMixin, OwnMixin, WatchMixin, SubscriptionMixin, RegistrationMixin
 	Type = Gio.BusType
 
 	def __init__(self, type, timeout=1000):
-		self.con = GreenFunc(Gio.bus_get, Gio.bus_get_finish, Gio.bus_get_sync)(type, None)
+		try:
+			self.con = GreenFunc(Gio.bus_get, Gio.bus_get_finish, Gio.bus_get_sync)(type, None)
+		except NotImplementedError:
+			self.con = Gio.bus_get_sync(type, None)
 		self.timeout = timeout
 
 	def __enter__(self):

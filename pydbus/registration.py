@@ -1,6 +1,9 @@
 from __future__ import print_function
 import sys, traceback
-from gi.repository import GLib, Gio
+try:
+    from gi.repository import GLib, Gio
+except ImportError:
+    from pgi.repository import GLib, Gio
 from . import generic
 from .exitable import ExitableWithAliases
 from .green import spawn_in_green_thread
